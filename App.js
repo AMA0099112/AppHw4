@@ -1,17 +1,18 @@
 import React from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { GluestackUIProvider, StatusBar } from "@gluestack-ui/themed";
-import Booklist from "./src/components/Booklist";
+import Header from "./src/components/Header";
+import Albumlist from "./src/components/AlbumList";
+import albumData from "./src/json/albums.json";
+import { SafeAreaView, StatusBar, Text } from "react-native";
+import { FlatList } from "@gluestack-ui/themed";
+
+import Navigation from "./src/navigation";
 
 const App = () => {
   return (
-    <SafeAreaProvider style={{ backgroundColor: "#fff" }}>
-      <GluestackUIProvider>
-        <StatusBar />
-        <Booklist />
-      </GluestackUIProvider>
-    </SafeAreaProvider>
-  );
-};
-
+    <SafeAreaView flex={1}>
+      <StatusBar />
+      <Navigation />
+    </SafeAreaView>
+  )
+}
 export default App;
