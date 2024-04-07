@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 
 import AccountScreen from "../screens/AccountScreen";
 import AlbumScreen from "../screens/AlbumScreen";
@@ -69,14 +69,14 @@ const styles = StyleSheet.create({
 
 
 const MyDrawer = () => {
-    const { colors } = useTheme();
+
     return (
         <Drawer.Navigator initialRouteName="HomeStack"
             screenOptions={{
-                drawerActiveBackgroundColor: 'white',
+
                 drawerActiveTintColor: '#6200EE',
-                drawerInactiveTintColor: 'gray',
-                drawerStyle: { width: 250 },
+                drawerInactiveTintColor: '#666666',
+                drawerStyle: { width: 300 },
                 drawerLabelStyle: { fontSize: 14, fontWeight: '400' },
             }}
             drawerContent={props => <CustomDrawerContent {...props} />}
@@ -95,7 +95,7 @@ const MyDrawer = () => {
             />
 
             <Drawer.Screen
-                name="Account"
+                name="AccountStack"
                 component={AccountStack}
                 options={{
                     headerShown: false,
@@ -131,8 +131,9 @@ const MyTab = () => {
             // 將stack函數的名稱放進來就可以使用功能
             initialRouteName="HomeStack"
             screenOptions={{
+
                 tabBarActiveTintColor: '#6200EE',
-                tabBarInactiveTintColor: colors.light500
+                tabBarInactiveTintColor: '#666666',
             }}
         >
             <Tab.Screen
@@ -236,13 +237,18 @@ const SettingStack = ({ navigation }) => {
 
 
 const HomeStack = ({ navigation }) => {
+    const [toggle, setToggle] = useState(true);
+    const toggleFunction = () => {
+        setToggle(!toggle);
+    };
     return (
         <Stack.Navigator>
             <Stack.Screen
                 name="Home"
                 component={AlbumScreen}
                 options={{
-                    title: "Home",
+                    headerShadowVisible: false,
+                    title: "",
                     headerTitleStyle: {
                         fontWeight: '400',
                         fontSize: 20
@@ -254,13 +260,41 @@ const HomeStack = ({ navigation }) => {
                             onPress={() => navigation.openDrawer()}
                             style={{ marginRight: 20 }}
                         />
+                    ),
+                    headerRight: () => (
+                        <MaterialCommunityIcons
+                            name={'magnify'}
+                            size={20}
+                            style={{ marginRight: 10 }}
+                        />
                     )
                 }}
             />
             <Stack.Screen
                 name="Detail"
                 component={DetailScreen}
+                options={{
+                    headerShadowVisible: false,
+                    title: "",
+                    headerLeft: () => (
+                        <MaterialCommunityIcons
+                            name={'chevron-left'}
+                            size={30}
+                            onPress={() => navigation.goBack(null)}
+                            style={{ marginLeft: 0 }}
+                        />
+                    ),
+                    headerRight: () => (
+                        <Pressable onPress={() => toggleFunction()}>
+                            {toggle ? <MaterialCommunityIcons name={'bookmark-outline'} color={'black'} size={26} /> :
+                                <MaterialCommunityIcons name={'bookmark'} color={'#6200EE'} size={26} />}
+                        </Pressable>
+                    ),
+                }}
             />
+
+
+
         </Stack.Navigator>
     );
 

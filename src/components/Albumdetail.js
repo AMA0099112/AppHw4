@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
 
     },
     cardContainerStyle: {
-        marginLeft: 5,
+        marginLeft: 10,
         marginRight: 5,
-        marginTop: 10
+        marginTop: 10,
+
     },
     cardSectionStyle: {
         paddingBottom: 15
